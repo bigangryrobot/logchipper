@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ReTry</id>
+    <version>0.1.0.0</version>
+    <title>ReTry</title>
+    <authors>Jamie Dixon</authors>
+    <owners>Jamie Dixon</owners>
+    <projectUrl>https://github.com/JamieDixon/ReTry</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ReTry gives you the ability to have service calls retried n-number of times before failing.
+
+This can be useful when making calls over the internet or to a database and you don't want a temporary interuption to raise an exception without first trying a couple of more times.
+
+ReTry lets you decide how to handle specific exception types if the service fails so that you can perform different actions.</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>C#</tags>
+  </metadata>
+</package>

@@ -1,0 +1,1072 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kingdom.ServiceProcess.Extensions</name>
+    </assembly>
+    <members>
+        <member name="T:System.ServiceProcess.Definitions.AdaptableServiceBase">
+            <summary>
+            Provides an adaptable-base-class for a service that will exist as part of a
+            service application. System.ServiceProcess.ServiceBase must be derived from
+            when creating a new service class.
+            </summary>
+            <remarks>Because we are adapting in Dependency-Injected concerns, if there
+            are any known interfaces, it would be appropriate to Constructor-Inject them,
+            here and/or in Derived-Service-Classes.</remarks>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.IServiceBase">
+            <summary>
+            Fills a gap where ServiceBase is an eligible-base-class but which itself
+            does not implement an interface. This makes it easier to wire up with a
+            Dependency Injection composition root. As long as we utilize the service
+            extensibility framework, this also makes it easier to identify just the
+            services we want: the ones implementing this interface.
+            </summary>
+            <remarks>Basically this was lifted straight from ServiceBase. We can
+            elaborate on this one further if we need to.</remarks>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceBase.RequestAdditionalTime(System.Int32)">
+            <summary>
+            Requests additional time for a pending operation.
+            </summary>
+            <param name="milliseconds">The requested time in milliseconds.</param>
+            <exception cref="T:System.InvalidOperationException">The service is not in a
+            pending state.</exception>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceBase.RequestAdditionalTime(System.TimeSpan)">
+            <summary>
+            Requests additional time for a pending operation.
+            </summary>
+            <param name="timeSpan">The requested time as a TimeSpan.</param>
+            <exception cref="T:System.InvalidOperationException">The service is not in a
+            pending state.</exception>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceBase.ServiceMainCallback(System.Int32,System.IntPtr)">
+            <summary>
+            Registers the command handler and starts the service.
+            </summary>
+            <param name="argCount">The number of arguments in the argument
+            array.</param>
+            <param name="argPointer">An System.IntPtr structure that points
+            to an array of arguments.</param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceBase.Stop">
+            <summary>
+            Stops the executing service.
+            </summary>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IServiceBase.AutoLog">
+            <summary>
+            Indicates whether to report Start, Stop, Pause, and Continue commands
+            in the event log.
+            </summary>
+            <value>true to report information in the event log; otherwise, false.</value>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IServiceBase.CanHandlePowerEvent">
+            <summary>
+            Gets or sets a value indicating whether the service can handle
+            notifications of computer power status changes.
+            </summary>
+            <value>true if the service handles the computer power status changes
+            indicated in the System.ServiceProcess.PowerBroadcastStatus class,
+            otherwise, false.</value>
+            <exception cref="T:System.InvalidOperationException">This property is modified
+            after the service was started.</exception>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IServiceBase.CanHandleSessionChangeEvent">
+            <summary>
+            Gets or sets a value that indicates whether the service can handle
+            session change events received from a Terminal Server session.
+            </summary>
+            <value>true if the service can handle Terminal Server session change
+            events; otherwise, false.</value>
+            <exception cref="T:System.InvalidOperationException">This property is modified
+            after the service was started.</exception>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IServiceBase.CanPauseAndContinue">
+            <summary>
+            Gets or sets a value indicating whether the service can be paused and
+            resumed.
+            </summary>
+            <value>true if the service can be paused; otherwise, false.</value>
+            <exception cref="T:System.InvalidOperationException">The service has already
+            been started. The System.ServiceProcess.ServiceBase.CanPauseAndContinue
+            property cannot be changed once the service has started.</exception>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IServiceBase.CanShutdown">
+            <summary>
+            Gets or sets a value indicating whether the service should be notified
+            when the system is shutting down.
+            </summary>
+            <value>true if the service should be notified when the system is
+            shutting down; otherwise, false.</value>
+            <exception cref="T:System.InvalidOperationException">The service has already
+            been started. The System.ServiceProcess.ServiceBase.CanShutdown property cannot be changed once the service has started.</exception>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IServiceBase.CanStop">
+            <summary>
+            Gets or sets a value indicating whether the service can be stopped
+            once it has started.
+            </summary>
+            <value>true if the service can be stopped and the
+            System.ServiceProcess.ServiceBase.OnStop() method called;
+            otherwise, false.</value>
+            <exception cref="T:System.InvalidOperationException">The service has already
+            been started. The System.ServiceProcess.ServiceBase.CanStop property
+            cannot be changed once the service has started.</exception>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IServiceBase.EventLog">
+            <summary>
+            Gets an event log you can use to write notification of service
+            command calls, such as Start and Stop, to the Application event log.
+            </summary>
+            <value>An System.Diagnostics.EventLog instance whose source is
+            registered to the Application log.</value>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IServiceBase.ExitCode">
+            <summary>
+            Gets or sets the exit code for the service.
+            </summary>
+            <value>The exit code for the service.</value>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IServiceBase.ServiceName">
+            <summary>
+            Gets or sets the short name used to identify the service to the system.
+            </summary>
+            <value>The name of the service.</value>
+            <exception cref="T:System.InvalidOperationException">The service has already been
+            started. The System.ServiceProcess.ServiceBase.ServiceName property cannot
+            be changed once the service has started.</exception>
+            <exception cref="T:System.ArgumentException">The specified name is a zero-length
+            string or is longer than System.ServiceProcess.ServiceBase.MaxNameLength,
+            or the specified name contains forward slash or backslash characters.</exception>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.Starting">
+            <summary>
+            Starting event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.Started">
+            <summary>
+            Started event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.Stopping">
+            <summary>
+            Stopping event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.Stopped">
+            <summary>
+            Stopped event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.Pausing">
+            <summary>
+            Pausing event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.Paused">
+            <summary>
+            Paused event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.Continuing">
+            <summary>
+            Continuing event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.Continued">
+            <summary>
+            Continued event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.PowerEventRequested">
+            <summary>
+            PowerEventRequested event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.ReceivingCustomCommand">
+            <summary>
+            ReceivingCustomCommand event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.CustomCommandReceived">
+            <summary>
+            CustomCommandReceived event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.SessionChanging">
+            <summary>
+            SessionChanging event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.IServiceBase.SessionChanged">
+            <summary>
+            SessionChanged event.
+            </summary>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.AdaptableServiceBase._workers">
+            <summary>
+            Workers backing field.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.#ctor(System.Collections.Generic.IEnumerable{System.ServiceProcess.Definitions.IServiceWorker})">
+            <summary>
+            Constructor. Is Dependency-Injectable, they are loadable that way,
+            so feel free to add Constructor-Injected references.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseStarting(System.ServiceProcess.Definitions.ServiceStartEventArgs)">
+            <summary>
+            Raises the Starting event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseStarted(System.ServiceProcess.Definitions.ServiceStartEventArgs)">
+            <summary>
+            Raises the Started event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseStopping(System.EventArgs)">
+            <summary>
+            Raises the Stopping event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseStopped(System.EventArgs)">
+            <summary>
+            Raises the Stopped event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaisePausing(System.EventArgs)">
+            <summary>
+            Raises the Pausing event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaisePaused(System.EventArgs)">
+            <summary>
+            Raises the Paused event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseContinuing(System.EventArgs)">
+            <summary>
+            Raises the Continuing event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseContinued(System.EventArgs)">
+            <summary>
+            Raises the Continued event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.AdaptableServiceBase._powerEventHandlers">
+            <summary>
+            PowerEventHandlers backing field.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaisePowerEventRequested(System.ServiceProcess.Definitions.PowerEventEventArgs)">
+            <summary>
+            Raises the PowerEventRequested event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseReceivingCustomCommand(System.ServiceProcess.Definitions.CustomCommandEventArgs)">
+            <summary>
+            Raises the ReceivingCustomCommand event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseCustomCommandReceived(System.ServiceProcess.Definitions.CustomCommandEventArgs)">
+            <summary>
+            Raises the CustomCommandReceived event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseSessionChanging(System.ServiceProcess.Definitions.SessionChangeEventArgs)">
+            <summary>
+            Raises the SessionChanging event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RaiseSessionChanged(System.ServiceProcess.Definitions.SessionChangeEventArgs)">
+            <summary>
+            Raises the SessionChanged event.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.OnStart(System.String[])">
+            <summary>
+            Start event handler.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.OnStop">
+            <summary>
+            Stop event handler.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.WaitForWorkers(System.ServiceProcess.Definitions.IServiceWorker[])">
+            <summary>
+            Waits for ServiceWorkers to finish.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.OnPause">
+            <summary>
+            Pause event handler.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.OnContinue">
+            <summary>
+            Continue event handler.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.OnPowerEvent(System.ServiceProcess.PowerBroadcastStatus)">
+            <summary>
+            PowerEvent event handler.
+            </summary>
+            <param name="powerStatus"></param>
+            <returns>The needs of your application determine what value to
+            return. For example, if a QuerySuspend broadcast status is passed,
+            you could cause your application to reject the query by returning
+            false.</returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.OnCustomCommand(System.Int32)">
+            <summary>
+            CustomCommand event handler.
+            </summary>
+            <param name="command"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.OnSessionChange(System.ServiceProcess.SessionChangeDescription)">
+            <summary>
+            SessionChange event handler.
+            </summary>
+            <param name="changeDescription"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceBase.RequestAdditionalTime(System.TimeSpan)">
+            <summary>
+            Requests additional time for a pending operation.
+            </summary>
+            <param name="timeSpan">The requested time as a TimeSpan.</param>
+            <exception cref="T:System.InvalidOperationException">The service is not in a
+            pending state.</exception>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.Starting">
+            <summary>
+            Starting event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.Started">
+            <summary>
+            Started event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.Stopping">
+            <summary>
+            Stopping event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.Stopped">
+            <summary>
+            Stopped event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.Pausing">
+            <summary>
+            Pausing event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.Paused">
+            <summary>
+            Paused event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.Continuing">
+            <summary>
+            Continuing event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.Continued">
+            <summary>
+            Continued event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.PowerEventRequested">
+            <summary>
+            PowerEventRequested event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.ReceivingCustomCommand">
+            <summary>
+            ReceivingCustomCommand event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.CustomCommandReceived">
+            <summary>
+            CustomCommandReceived event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.SessionChanging">
+            <summary>
+            SessionChanging event.
+            </summary>
+        </member>
+        <member name="E:System.ServiceProcess.Definitions.AdaptableServiceBase.SessionChanged">
+            <summary>
+            SessionChanged event.
+            </summary>
+        </member>
+        <member name="T:Kingdom.ServiceProcess.AdaptableServiceInstaller">
+            <summary>
+            AdaptableServiceInstaller Installer class.
+            </summary>
+            <seealso cref="T:System.ComponentModel.RunInstallerAttribute"/>
+        </member>
+        <member name="M:Kingdom.ServiceProcess.AdaptableServiceInstaller.#ctor(System.ServiceProcess.ServiceAccount,System.ServiceProcess.ServiceInstaller[])">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="account"></param>
+            <param name="serviceInstallers"></param>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceBase">
+            <summary>
+            Adaptable task parallel service base class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceBase.#ctor(System.Collections.Generic.IEnumerable{System.ServiceProcess.Definitions.IServiceWorker})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceBase.WaitForWorkers(System.ServiceProcess.Definitions.IServiceWorker[])">
+            <summary>
+            Waits for task parallel ServiceWorkers to complete.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.AdaptableThreadServiceBase">
+            <summary>
+            AdaptableThreadServiceBase class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceBase.#ctor(System.Collections.Generic.IEnumerable{System.ServiceProcess.Definitions.IServiceWorker})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceBase.WaitForWorkers(System.ServiceProcess.Definitions.IServiceWorker[])">
+            <summary>
+            Waits for task parallel ServiceWorkers to complete.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.InteractiveTaskParallelServiceRunner">
+            <summary>
+            Interactive task parallel service worker.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase">
+            <summary>
+            InteractiveServiceRunnerBase class.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.AdaptableServiceRunner">
+            <summary>
+            AdaptableServiceRunner class.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.IServiceRunner">
+            <summary>
+            ServiceRunner interface.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceRunner.TryParse(System.String[])">
+            <summary>
+            Parses the Args.
+            </summary>
+            <param name="args"></param>
+            <returns>Whether parsing was successful.</returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceRunner.Run">
+            <summary>
+            Runs the Service.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceRunner.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceRunner.TryParse(System.String[])">
+            <summary>
+            Parses the Args.
+            </summary>
+            <param name="args"></param>
+            <returns>Whether parsing was successful.</returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceRunner.Run">
+            <summary>
+            Runs the Service.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceRunner.Dispose">
+            <summary>
+            Disposes the object.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.IInteractiveServiceRunner">
+            <summary>
+            InteractiveServiceRunner interface.
+            </summary>
+            <remarks>Recommend using Environment.UserInteractive in your favorite
+            DI container provider(s) in order to determine which ServiceRunner to
+            provide.</remarks>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase._workers">
+            <summary>
+            Workers backing field.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase.#ctor(System.Collections.Generic.IEnumerable{System.ServiceProcess.Definitions.IServiceWorker})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="workers"></param>
+            <remarks>Allows there to be DI connections.</remarks>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase._args">
+            <summary>
+            Args backing field.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase.TryParse(System.String[])">
+            <summary>
+            Parses the Args.
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase.RunService(System.Collections.Generic.List{System.ServiceProcess.Definitions.IServiceWorker},System.String[])">
+            <summary>
+            Runs the Service.
+            </summary>
+            <param name="workers"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase.WaitForWorkers(System.ServiceProcess.Definitions.IServiceWorker[])">
+            <summary>
+            Waits for the ServiceWorkers.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase.Run">
+            <summary>
+            Runs the Service.
+            </summary>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase.RunInstaller">
+            <summary>
+            Gets whether to RunInstaller.
+            </summary>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.InteractiveServiceRunnerBase.RunUninstaller">
+            <summary>
+            Gets whether to RunUninstaller.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.InteractiveTaskParallelServiceRunner.#ctor(System.Collections.Generic.IEnumerable{System.ServiceProcess.Definitions.IServiceWorker})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.InteractiveTaskParallelServiceRunner.WaitForWorkers(System.ServiceProcess.Definitions.IServiceWorker[])">
+            <summary>
+            Waits for the ServiceWorkers.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.InteractiveThreadServiceRunner">
+            <summary>
+            InteractiveThreadServiceRunner class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.InteractiveThreadServiceRunner.#ctor(System.Collections.Generic.IEnumerable{System.ServiceProcess.Definitions.IServiceWorker})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.InteractiveThreadServiceRunner.WaitForWorkers(System.ServiceProcess.Definitions.IServiceWorker[])">
+            <summary>
+            Waits for the ServiceWorkers.
+            </summary>
+            <param name="workers"></param>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.ITaskParallelServiceWorker">
+            <summary>
+            Task parallel service worker interface.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.IServiceWorker">
+            <summary>
+            ServiceWorker interface.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceWorker.Start(System.String[])">
+            <summary>
+            Signals the ServiceWorker to Start.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceWorker.Stop">
+            <summary>
+            Signals the ServiceWorker to Stop.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceWorker.Pause">
+            <summary>
+            Signals the ServiceWorker to Pause.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IServiceWorker.Continue">
+            <summary>
+            Signals the ServiceWorker to Continue.
+            </summary>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.ITaskParallelServiceWorker.Task">
+            <summary>
+            Gets the ServiceWorker Task.
+            </summary>
+            <remarks>It gets very complicated if we want to coordinate with Threads for
+            .NET 3.5. So we'll just go with 4.0+ for now, and decide whether .NET 3.5 is
+            worth the effort later. There is a TPL back-port if we want to maintain some
+            degree of consistency with Tasks if needs be, however.</remarks>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker">
+            <summary>
+            Adaptable task parallel service worker class.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.AdaptableServiceWorker">
+            <summary>
+            AdaptableServiceWorker class.
+            </summary>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.AdaptableServiceWorker._continue">
+            <summary>
+            Continue event backing field.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceWorker.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceWorker.Start(System.String[])">
+            <summary>
+            Starts the Thread running using its starter.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceWorker.Stop">
+            <summary>
+            Signals the Thread to Stop.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceWorker.Pause">
+            <summary>
+            Signals the Thread to Pause.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceWorker.Continue">
+            <summary>
+            Signals the Thread to Continue.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceWorker.MayContinue(System.Double)">
+            <summary>
+            Returns whether the Worker MayContinue.
+            </summary>
+            <param name="timeout">Timeout value in milliseconds.</param>
+            <returns>Whether the Worker MayContinue.</returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceWorker.MayContinue(System.Double,System.Func{System.Double,System.TimeSpan})">
+            <summary>
+            Returns whether the Worker MayContinue.
+            </summary>
+            <param name="timeout">Timeout value.</param>
+            <param name="from">Delegate function converting timeout to <seealso cref="T:System.TimeSpan"/>.
+            Default is <seealso cref="M:System.TimeSpan.FromMilliseconds(System.Double)"/>.</param>
+            <returns>Whether the Worker MayContinue.</returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableServiceWorker.MayContinue(System.TimeSpan)">
+            <summary>
+            Returns whether the Worker MayContinue.
+            </summary>
+            <param name="timeout">Timeout value.</param>
+            <returns>Whether the Worker MayContinue.</returns>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker._task">
+            <summary>
+            Task backing field.
+            </summary>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker._cancelToken">
+            <summary>
+            CancelToken backing field.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker.NewTask(System.Threading.Tasks.TaskScheduler)">
+            <summary>
+            Returns a new Task.
+            </summary>
+            <param name="scheduler"></param>
+            <returns></returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker.Start(System.String[])">
+            <summary>
+            Starts the Thread running using its starter.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker.Stop">
+            <summary>
+            Signals the Thread to Stop.
+            </summary>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker.Task">
+            <summary>
+            Gets the Task.
+            </summary>
+            <remarks>Derived classes must provide their own Worker Task.</remarks>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker.CancelToken">
+            <summary>
+            Gets the Cancellation.
+            Derived classes should make use of this property
+            in order to synchronize stoppage requests.
+            </summary>
+            <seealso cref="T:System.Threading.CancellationTokenSource"/>
+            <seealso cref="P:System.Threading.CancellationTokenSource.IsCancellationRequested"/>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.AdaptableTaskParallelServiceWorker.Scheduler">
+            <summary>
+            Starts the Task with the specified TaskScheduler.
+            </summary>
+            <remarks>Starting with the Default TaskScheduler.</remarks>
+        </member>
+        <member name="T:System.ServiceProcess.Helpers.InstallHelperBase`1">
+            <summary>
+            InstallHelperBase class.
+            </summary>
+        </member>
+        <member name="F:System.ServiceProcess.Helpers.InstallHelperBase`1.Instance">
+            <summary>
+            Instance backing field.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Helpers.InstallHelperBase`1.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Helpers.InstallHelperBase`1.RunHelper(System.String[])">
+            <summary>
+            Runs the helper.
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="P:System.ServiceProcess.Helpers.InstallHelperBase`1.EntryPath">
+            <summary>
+            Gets the EntryPath.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Helpers.IServiceInstallHelper">
+            <summary>
+            ServiceInstallHelper interface.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Helpers.IServiceInstallHelper.Install">
+            <summary>
+            Installs the service.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Helpers.ServiceInstallHelper">
+            <summary>
+            ServiceInstallHelper class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Helpers.ServiceInstallHelper.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Helpers.ServiceInstallHelper.Install">
+            <summary>
+            Installs the service.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Helpers.IServiceUninstallHelper">
+            <summary>
+            ServiceUninstallHelper interface.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Helpers.IServiceUninstallHelper.Uninstall">
+            <summary>
+            Uninstalls the service.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Helpers.ServiceUninstallHelper">
+            <summary>
+            ServiceUninstallHelper class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Helpers.ServiceUninstallHelper.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Helpers.ServiceUninstallHelper.Uninstall">
+            <summary>
+            Uninstalls the service.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.ServiceRunnerExtensionMethods">
+            <summary>
+            ServiceRunnerExtensionMethods class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.ServiceRunnerExtensionMethods.VerifyServiceWorkers``1(System.Collections.Generic.IEnumerable{System.ServiceProcess.Definitions.IServiceWorker})">
+            <summary>
+            Verifies the ServiceWorkers.
+            </summary>
+            <typeparam name="TServiceWorker"></typeparam>
+            <param name="workers"></param>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.IProductionServiceRunner">
+            <summary>
+            ProductionServiceRunner interface.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.ProductionServiceRunner">
+            <summary>
+            ProductionServiceRunner class.
+            </summary>
+            <remarks>This is production scaffolding that supports running
+            the services themselves in production.</remarks>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.ProductionServiceRunner._services">
+            <summary>
+            Services backing field.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.ProductionServiceRunner.#ctor(System.Collections.Generic.IEnumerable{System.ServiceProcess.Definitions.IServiceBase})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="services"></param>
+            <remarks>Allows there to be DI connections.</remarks>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.ProductionServiceRunner.TryParse(System.String[])">
+            <summary>
+            Parses the Args.
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.ProductionServiceRunner.Run">
+            <summary>
+            Runs the Service.
+            </summary>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.ProductionServiceRunner.Services">
+            <summary>
+            Gets the Services.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.IThreadServiceWorker">
+            <summary>
+            Thread service worker interface.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.IThreadServiceWorker.HasCompleted">
+            <summary>
+            Returns whether the ServiceWorker HasCompleted.
+            </summary>
+            <returns>Whether the ServiceWorker HasCompleted.</returns>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.IThreadServiceWorker.Thread">
+            <summary>
+            Gets the worker Thread.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker">
+            <summary>
+            Adaptable thread service worker class.
+            </summary>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker._thread">
+            <summary>
+            Thread backing field.
+            </summary>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker._stop">
+            <summary>
+            Stop ResetEvent backing field.
+            </summary>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker._completed">
+            <summary>
+            Completed ResetEvent backing field.
+            </summary>
+        </member>
+        <member name="F:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker._startHandler">
+            <summary>
+            Delegated StartHandler backing field.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker.#ctor(System.Action{System.ServiceProcess.Definitions.IThreadServiceWorker})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="startHandler">Default handler starts Thread with no parameters.</param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker.NewThread">
+            <summary>
+            Returns a new Thread.
+            </summary>
+            <returns></returns>
+            <remarks>Could be parameterized or not,
+             depending what the application requires.</remarks>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker.Start(System.String[])">
+            <summary>
+            Starts the Thread running using its starter.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker.Stop">
+            <summary>
+            Signals the Thread to Stop.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker.SetCompleted">
+            <summary>
+            Sets whether the ServiceWorker HasCompleted.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker.IsStopRequested(System.TimeSpan)">
+            <summary>
+            Returns whether Stop is requested.
+            </summary>
+            <param name="timeout"></param>
+            <returns></returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker.IsStopRequested(System.Nullable{System.Double})">
+            <summary>
+            Returns whether Stop is requested.
+            </summary>
+            <param name="timeoutMilliseconds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker.HasCompleted">
+            <summary>
+            Returns whether the ServiceWorker HasCompleted.
+            </summary>
+            <returns>Whether the ServiceWorker HasCompleted.</returns>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.AdaptableThreadServiceWorker.Thread">
+            <summary>
+            Gets the Thread.
+            </summary>
+            <remarks>Derived classes must provide their own Worker Thread.</remarks>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.ServiceStartEventArgs">
+            <summary>
+            ServiceStartEventArgs EventArgs class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.ServiceStartEventArgs.#ctor(System.String[])">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.ServiceStartEventArgs.Args">
+            <summary>
+            Gets the Args.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.PowerEventEventArgs">
+            <summary>
+            PowerEventEventArgs EventArgs class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.PowerEventEventArgs.#ctor(System.ServiceProcess.PowerBroadcastStatus)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="powerStatus"></param>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.PowerEventEventArgs.PowerStatus">
+            <summary>
+            Gets the PowerStatus.
+            </summary>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.PowerEventEventArgs.QueryResult">
+            <summary>
+            Gets or sets the QueryResult.
+            </summary>
+            <value>false by default, meaning query-rejected.</value>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.CustomCommandEventArgs">
+            <summary>
+            CustomCommandEventArgs EventArgs class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.CustomCommandEventArgs.#ctor(System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="command"></param>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.CustomCommandEventArgs.Command">
+            <summary>
+            Gets the Command.
+            </summary>
+        </member>
+        <member name="T:System.ServiceProcess.Definitions.SessionChangeEventArgs">
+            <summary>
+            SessionChangeEventArgs EventArgs class.
+            </summary>
+        </member>
+        <member name="M:System.ServiceProcess.Definitions.SessionChangeEventArgs.#ctor(System.ServiceProcess.SessionChangeDescription)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="changeDescription"></param>
+        </member>
+        <member name="P:System.ServiceProcess.Definitions.SessionChangeEventArgs.ChangeDescription">
+            <summary>
+            Gets the ChangeDescription.
+            </summary>
+        </member>
+    </members>
+</doc>
